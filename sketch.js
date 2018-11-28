@@ -1,7 +1,7 @@
 function setup() {
-  createCanvas(windowWidth, windowHeight - 312, WEBGL);
+  createCanvas(windowWidth, windowHeight - 226, WEBGL);
   strokeWeight(4);
-  
+
   dom = height * 0.04;
   angle = 0;
   cylinderRadius = 1;
@@ -15,14 +15,14 @@ function draw() {
   // Lighting
   ambientLight(166);
   directionalLight(255, 255, 255, 1, 1, -1);
-  
+
   // Transformation
   orbitControl();
   rotateY(angle);
   if (rotating.checked()) {
     angle += rotateSpeed.value();
   }
-  
+
   // Auto randomize
   if (autoRandomize.checked() && frameCount % 300 == 0) {
     randomizeVectors();
@@ -37,41 +37,26 @@ function draw() {
   //drawAxises();
   drawCompass();
   drawVolume();
-  drawVector(a, color(220, 180, 100));
-  drawVector(b, color(100, 220, 180));
-  drawVector(c, color(180, 100, 220));
+  drawVector(a, '#f37329');
+  drawVector(b, '#4fa084');
+  drawVector(c, '#a56de2');
 }
 
 function makeDoms() {
-  // Bar
-  // bar = createDiv('>briano');
-  // bar.style('font-family: courier;');
-  // bar.style('background: #9a905d;');
-  
   // I
   iLabel = createSpan('(i) x-axis');
-  iLabel.style('padding: 2px 18px;');
-  iLabel.style('background: #ff8888');
-  iLabel.style('font-family: courier;');
-  
+  iLabel.style('background: #c6262e');
   // J
   jLabel = createSpan('(j) y-axis');
-  jLabel.style('padding: 2px 18px;');
-  jLabel.style('background: #88ff88');
-  jLabel.style('font-family: courier;');
-  
+  jLabel.style('background: #68b723');
   // K
   kLabel = createSpan('(k) z-axis');
-  kLabel.style('padding: 2px 18px;');
-  kLabel.style('background: #8888ff');
-  kLabel.style('font-family: courier;');
+  kLabel.style('background: #3689e6');
   createP();
-  
+
   // A (Orange)
   aForm = createSpan();
-  aForm.style('padding: 2px 4px;');
-  aForm.style('background: #ffdd88');
-  aForm.style('font-family: courier;');
+  aForm.style('background: #f37329');
   createDiv();
   ax = createSlider(-dom, dom, 0);
   ay = createSlider(-dom, dom, 0);
@@ -79,12 +64,10 @@ function makeDoms() {
   resetA = createButton('reset');
   resetA.mousePressed(resetSliderA);
   createP();
-  
+
   // B (cyan)
   bForm = createSpan();
-  bForm.style('padding: 2px 4px;');
-  bForm.style('background: #88ffdd');
-  bForm.style('font-family: courier;');
+  bForm.style('background: #4fa084');
   createDiv();
   bx = createSlider(-dom, dom, 0);
   by = createSlider(-dom, dom, 0);
@@ -92,12 +75,10 @@ function makeDoms() {
   resetB = createButton('reset');
   resetB.mousePressed(resetSliderB);
   createP();
-  
+
   // C (Purple)
   cForm = createSpan();
-  cForm.style('padding: 2px 4px;');
-  cForm.style('background: #dd88ff');
-  cForm.style('font-family: courier;');
+  cForm.style('background: #a56de2');
   createDiv();
   cx = createSlider(-dom, dom, 0);
   cy = createSlider(-dom, dom, 0);
@@ -105,31 +86,26 @@ function makeDoms() {
   resetC = createButton('reset');
   resetC.mousePressed(resetSliderC);
   createP();
-  
+
   // Sum
   sum = createSpan('arst');
-  sum.style('font-family: courier;');
+  sum.style('background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet); background-color: rgba(255, 255, 255, 0.66); background-blend-mode: multiply;');
   createP();
-  
+
   // Volume
   volume = createSpan();
-  volume.style('font-family: courier;');
   showVolume = createCheckbox('Shade Volume', false);
-  showVolume.style('font-family: courier;');
   createP();
-  
+
   // Auto rotate
   rotateSpeed = createSlider(1 / 500, 1 / 50, 1 / 100, 1 / 1000);
   rotating = createCheckbox('Auto rotate', false);
-  rotating.style('font-family: courier;');
   createP();
-  
+
   // Randomize
   randomize = createButton('Randomize');
-  randomize.style('font-family: courier;');
   randomize.mousePressed(randomizeVectors);
   autoRandomize = createCheckbox('Auto randomize', false);
-  autoRandomize.style('font-family: courier;');
   createP();
 }
 
@@ -180,7 +156,7 @@ function updateLabel() {
   bForm.html(b.x + 'i + ' + b.y + 'j + ' + b.z + 'k' + ', magnitude: ' + mag);
   mag = sqrt(sq(c.x) + sq(c.y) + sq(c.z)).toFixed(2);
   cForm.html(c.x + 'i + ' + c.y + 'j + ' + c.z + 'k' + ', magnitude: ' + mag);
-  
+
   calcSum(a, b, c);
   calcVolume(a, b, c);
 }
@@ -190,7 +166,7 @@ function calcSum(a, b, c) {
   sumJ = a.y + b.y + c.y;
   sumK = a.z + b.z + c.z;
   sumMag = sqrt(sq(sumI) + sq(sumJ) + sq(sumK)).toFixed(2);
-  sum.html('Sum: ' + sumI + 'i + ' + sumJ + 'j + ' + sumK + 'k' + ', magnitude: ' + sumMag);
+  sum.html(sumI + 'i + ' + sumJ + 'j + ' + sumK + 'k' + ', magnitude: ' + sumMag);
 }
 
 function calcVolume(a, b, c) {
@@ -200,61 +176,22 @@ function calcVolume(a, b, c) {
   vol = abs(uno - dos + tre);
   volume.html('Volume: ' + vol);
 }
-  
-function drawAxises() {
-  push();
-  noStroke();
-  
-  // X-axis (red)
-  push();
-  rotateZ(HALF_PI);
-  ambientMaterial(220, 220, 220);
-  cylinder(cylinderRadius, dom * 24);
-  translate(0, -dom*12, 0);
-  cone(cylinderRadius*3, -cylinderRadius*9);
-  translate(0, dom*24, 0);
-  cone(cylinderRadius*3, cylinderRadius*9);
-  pop();
-  
-  // Y-axis (green)
-  push();
-  ambientMaterial(220, 220, 220);
-  cylinder(cylinderRadius, dom * 24);
-  translate(0, -dom*12, 0);
-  cone(cylinderRadius*3, -cylinderRadius*9);
-  translate(0, dom*24, 0);
-  cone(cylinderRadius*3, cylinderRadius*9);
-  pop();
-  
-  // Z-axis (blue)
-  push();
-  rotateX(HALF_PI);
-  ambientMaterial(220, 220, 220);
-  cylinder(cylinderRadius, dom * 24);
-  translate(0, -dom*12, 0);
-  cone(cylinderRadius*3, -cylinderRadius*9);
-  translate(0, dom*24, 0);
-  cone(cylinderRadius*3, cylinderRadius*9);
-  pop();
-  
-  pop();
-}
 
 function drawSlimAxises() {
   push();
-  stroke(220);
+  stroke('#c6262e');
   beginShape();
-  vertex(0, 0, 0);
   vertex(dom*12, 0, 0);
-  vertex(0, 0, 0);
   vertex(-dom*12, 0, 0);
-  vertex(0, 0, 0);
+  endShape();
+  stroke('#68b723');
+  beginShape();
   vertex(0, dom*12, 0);
-  vertex(0, 0, 0);
   vertex(0, -dom*12, 0);
-  vertex(0, 0, 0);
+  endShape();
+  stroke('#3689e6');
+  beginShape();
   vertex(0, 0, dom*12);
-  vertex(0, 0, 0);
   vertex(0, 0, -dom*12);
   endShape();
   pop();
@@ -263,53 +200,52 @@ function drawSlimAxises() {
 function drawCompass() {
   push();
   noStroke();
-  translate(-200, -200, 0);
-  
+  translate(-dom*6, -dom*6, 0);
+
   // X-axis (red)
   push();
   rotateZ(HALF_PI);
   translate(0, -dom, 0);
-  ambientMaterial(220, 100, 100);
+  ambientMaterial('#c6262e');
   cylinder(cylinderRadius, dom*2);
   translate(0, -dom, 0);
   cone(cylinderRadius*2, -cylinderRadius*6);
   pop();
-  
+
   // Y-axis (green)
   push();
   translate(0, -dom, 0);
-  ambientMaterial(100, 220, 100);
+  ambientMaterial('#68b723');
   cylinder(cylinderRadius, dom*2);
   translate(0, -dom, 0);
   cone(cylinderRadius*2, -cylinderRadius*6);
   pop();
-  
+
   // Z-axis (blue)
   push();
   rotateX(HALF_PI);
   translate(0, +dom, 0);
-  ambientMaterial(100, 100, 220);
+  ambientMaterial('#3689e6');
   cylinder(cylinderRadius, dom*2);
   translate(0, dom, 0);
   cone(cylinderRadius*2, cylinderRadius*6);
   pop();
-  
+
   pop();
 }
 
 function drawVector(v, c) {
   push();
-  // Stroke
+  // Line
   stroke(c);
   beginShape(a);
   vertex(0, 0, 0);
   vertex(v.x*6, -v.y*6, v.z*6);
   endShape();
-  
   // Sphere
-  noStroke();
   translate(v.x*6, -v.y*6, v.z*6);
   ambientMaterial(c);
+  noStroke();
   sphere(ballsRadius);
   pop();
 }
@@ -319,7 +255,7 @@ function drawVolume() {
   // Shading
   stroke(220);
   strokeWeight(2);
-  ambientMaterial(255, 255, 255, 100);
+  ambientMaterial(220, 220, 220, 16);
   if (showVolume.checked()) {
     beginShape();
     vertex(0, 0, 0);

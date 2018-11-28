@@ -1,0 +1,7 @@
+@font-face {
+	font-family: 'Conv_iosevka-regular';
+	src: url('fonts/iosevka-regular.eot');
+	src: local('☺'), url('fonts/iosevka-regular.woff') format('woff'), url('fonts/iosevka-regular.ttf') format('truetype'), url('fonts/iosevka-regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}

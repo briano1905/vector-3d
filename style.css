@@ -1,7 +1,13 @@
 html, body {
   margin: 0;
   padding: 0;
+  background: #0e141f;
+  color: #fafafa;
+  font-family: iosevka;
 }
 canvas {
   display: block;
+}
+span {
+  padding: 2px 18px;
 }
