@@ -1,5 +1,5 @@
 function setup() {
-  createCanvas(windowWidth, windowHeight - 300, WEBGL);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   strokeWeight(4);
 
   dom = height * 0.04;
@@ -30,16 +30,24 @@ function draw() {
 
   // Vectors
   makeVectors();
+  noiseVectors();
   updateLabel();
 
   // Drawing
-  drawSlimAxises();
-  //drawAxises();
+  drawAxises();
   drawCompass();
   drawVolume();
   drawVector(a, '#f37329');
   drawVector(b, '#4fa084');
   drawVector(c, '#a56de2');
+}
+
+function noiseVectors() {
+  if (noiser.checked()) {
+    a = createVector(noise((frameCount + 111) / 100)*2*dom-dom, noise((frameCount + 222) / 100)*2*dom-dom, noise((frameCount + 333) / 100)*2*dom-dom);
+    b = createVector(noise((frameCount + 444) / 100)*2*dom-dom, noise((frameCount + 555) / 100)*2*dom-dom, noise((frameCount + 666) / 100)*2*dom-dom);
+    c = createVector(noise((frameCount + 777) / 100)*2*dom-dom, noise((frameCount + 888) / 100)*2*dom-dom, noise((frameCount + 999) / 100)*2*dom-dom);
+  }
 }
 
 function makeDoms() {
@@ -107,6 +115,10 @@ function makeDoms() {
   randomize.mousePressed(randomizeVectors);
   autoRandomize = createCheckbox('Auto randomize', false);
   createP();
+
+  // Noise
+  noiser = createCheckbox('noise', false);
+  createP();
 }
 
 function doubleClicked() {
@@ -151,11 +163,11 @@ function resetSliderC() {
 
 function updateLabel() {
   mag = sqrt(sq(a.x) + sq(a.y) + sq(a.z)).toFixed(2);
-  aForm.html(a.x + 'i + ' + a.y + 'j + ' + a.z + 'k' + ', magnitude: ' + mag);
+  aForm.html(a.x.toFixed() + 'i + ' + a.y.toFixed() + 'j + ' + a.z.toFixed() + 'k' + ', magnitude: ' + mag);
   mag = sqrt(sq(b.x) + sq(b.y) + sq(b.z)).toFixed(2);
-  bForm.html(b.x + 'i + ' + b.y + 'j + ' + b.z + 'k' + ', magnitude: ' + mag);
+  bForm.html(b.x.toFixed() + 'i + ' + b.y.toFixed() + 'j + ' + b.z.toFixed() + 'k' + ', magnitude: ' + mag);
   mag = sqrt(sq(c.x) + sq(c.y) + sq(c.z)).toFixed(2);
-  cForm.html(c.x + 'i + ' + c.y + 'j + ' + c.z + 'k' + ', magnitude: ' + mag);
+  cForm.html(c.x.toFixed() + 'i + ' + c.y.toFixed() + 'j + ' + c.z.toFixed() + 'k' + ', magnitude: ' + mag);
 
   calcSum(a, b, c);
   calcVolume(a, b, c);
@@ -166,7 +178,7 @@ function calcSum(a, b, c) {
   sumJ = a.y + b.y + c.y;
   sumK = a.z + b.z + c.z;
   sumMag = sqrt(sq(sumI) + sq(sumJ) + sq(sumK)).toFixed(2);
-  sum.html(sumI + 'i + ' + sumJ + 'j + ' + sumK + 'k' + ', magnitude: ' + sumMag);
+  sum.html(sumI.toFixed() + 'i + ' + sumJ.toFixed() + 'j + ' + sumK.toFixed() + 'k' + ', magnitude: ' + sumMag);
 }
 
 function calcVolume(a, b, c) {
@@ -174,10 +186,10 @@ function calcVolume(a, b, c) {
   dos = b.x * (a.y * c.z - c.y * a.z);
   tre = c.x * (a.y * b.z - b.y * a.z);
   vol = abs(uno - dos + tre);
-  volume.html('Volume: ' + vol);
+  volume.html('Volume: ' + vol.toFixed());
 }
 
-function drawSlimAxises() {
+function drawAxises() {
   push();
   stroke('#c6262e');
   beginShape();
