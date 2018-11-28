@@ -1,5 +1,5 @@
 function setup() {
-  createCanvas(windowWidth, windowHeight, WEBGL);
+  createCanvas(windowWidth, windowHeight - 300, WEBGL);
   strokeWeight(4);
 
   dom = height * 0.04;
