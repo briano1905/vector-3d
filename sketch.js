@@ -42,14 +42,6 @@ function draw() {
   drawVector(c, '#a56de2');
 }
 
-function noiseVectors() {
-  if (noiser.checked()) {
-    a = createVector(noise((frameCount + 111) / 100)*2*dom-dom, noise((frameCount + 222) / 100)*2*dom-dom, noise((frameCount + 333) / 100)*2*dom-dom);
-    b = createVector(noise((frameCount + 444) / 100)*2*dom-dom, noise((frameCount + 555) / 100)*2*dom-dom, noise((frameCount + 666) / 100)*2*dom-dom);
-    c = createVector(noise((frameCount + 777) / 100)*2*dom-dom, noise((frameCount + 888) / 100)*2*dom-dom, noise((frameCount + 999) / 100)*2*dom-dom);
-  }
-}
-
 function makeDoms() {
   // I
   iLabel = createSpan('(i) x-axis');
@@ -129,6 +121,14 @@ function makeVectors() {
   a = createVector(int(ax.value()), int(ay.value()), int(az.value()));
   b = createVector(int(bx.value()), int(by.value()), int(bz.value()));
   c = createVector(int(cx.value()), int(cy.value()), int(cz.value()));
+}
+
+function noiseVectors() {
+  if (noiser.checked()) {
+    a = createVector(noise((frameCount + 111) / 100)*dom*4-dom*2, noise((frameCount + 222) / 100)*dom*4-dom*2, noise((frameCount + 333) / 100)*dom*4-dom*2);
+    b = createVector(noise((frameCount + 444) / 100)*dom*4-dom*2, noise((frameCount + 555) / 100)*dom*4-dom*2, noise((frameCount + 666) / 100)*dom*4-dom*2);
+    c = createVector(noise((frameCount + 777) / 100)*dom*4-dom*2, noise((frameCount + 888) / 100)*dom*4-dom*2, noise((frameCount + 999) / 100)*dom*4-dom*2);
+  }
 }
 
 function randomizeVectors() {
