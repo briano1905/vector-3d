@@ -1,2 +1,2 @@
 # vector3d
-plotting 3d vector with p5js library
+An Interactive p5 sketch to help humans visualize and understand the concept of vector better.
