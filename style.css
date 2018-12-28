@@ -3,7 +3,7 @@ html, body {
   padding: 0;
   background: #0e141f;
   color: #fafafa;
-  font-family: iosevka;
+  font-family: 'Quicksand', sans-serif;
 }
 canvas {
   display: block;
